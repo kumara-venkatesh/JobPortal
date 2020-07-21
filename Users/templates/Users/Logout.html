@@ -1,0 +1,26 @@
+{% extends 'Posts\Base.html' %}
+{% block content %}
+<div class="row">
+	<div class="col">
+<div class="card mb-5 mt-5 ml-5 w-50 shadow">
+
+<h5 class="card-body text-muted">You have been successfully logged out.</h5>
+
+<small class='card-footer'>
+	Click here to login again?<a class="btn btn-primary ml-2" href="{% url 'Login' %}">Login</a>	
+</small>
+
+</div>
+</div>
+<div class="">
+<div class="banner-image-container">
+	<div class="banner-image mr-5" >
+		<img src="/media/Menhand.png" width="500" >
+	</div>
+	
+</div>
+
+</div>
+</div>
+
+{% endblock content %}

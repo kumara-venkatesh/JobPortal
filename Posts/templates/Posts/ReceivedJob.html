@@ -1,0 +1,142 @@
+{% extends 'Posts\Base.html' %}
+{% block content %}
+
+
+
+
+
+
+<div class="card-body ml-3 mr-3 rounded mb-4 p-2">
+
+	<center><h5 class="text-muted ml-2 "><i class="fa fa-list mr-2"></i>{{ user.emprofile.CompanyName }}'s-Received Job Applications</h5></center>
+	
+</div>
+
+
+
+
+
+{% for post in posts %}
+
+{% ifchanged post.AppliedFor.id %}
+
+</details>
+</div>
+</div>
+</div>
+
+
+
+<div class="col-md-9 container mt-3 mb-5">
+				
+			<div class="card border-secondary shadow">
+						<div class="card-header">
+							<h5 class="text-secondary"><i class="fa fa-angle-double-right mr-2"></i>{{ post.AppliedFor.Designation }}</h5>
+							<small class="text-muted">(Posted on {{ post.AppliedFor.DatePosted }}) </small>
+						</div>
+				<div class="card-body ">
+					
+						<strong><label class="text-muted"><i class="fa fa-map-marker mr-2"></i>Location :</strong> {{ post.AppliedFor.Location }},</label>
+
+						<strong><label class="text-muted ml-2"><i class="fa fa-briefcase mr-2"></i>Experience :</strong> {{ post.AppliedFor.Experience }},</label>
+
+						<strong><label class="text-muted ml-2"><i class="fa fa-pencil-ruler mr-2"></i>Skills Required :</strong> {{ post.AppliedFor.SkillsRequired }},</label>
+
+						<strong><label class="text-muted ml-2"><i class="fa fa-binoculars mr-2"></i>Vacancy :</strong> {{ post.AppliedFor.Vacancy }}</label>
+					
+					
+				</div>
+
+				<div class="card-footer border-secondary">
+					<details>
+					<summary class="btn mb-2 bg-secondary text-white" style="border: 1.5px solid white;">Jobs Received:</summary>	
+					
+					<article class="div1 bg-white rounded border-secondary border media content-section ml-2 shadow mb-3 mt-2 pt-2" >
+						<img class="rounded-circle mr-2 ml-2" src="{{ post.AppliedBy.jsprofile.img.url }}" width="50px" height="50px">
+						
+						<div class="mb-2">
+							<div class="border-bottom">
+								
+								<a class="text-dark" style="text-decoration: None;" href="{% url 'post-detail' post.AppliedFor.id %}">
+									<small class="text-muted">Applied By <strong>{{ post.AppliedBy.username }}</strong> on {{ post.DateApplied }} </small>
+							</div>
+							<p><i class="fa fa-briefcase text-primary mr-2"></i>Experience : {{ post.AppliedBy.jsprofile.Experience }}</p>
+							
+							</a>
+							<p><i class="fa fa-file-alt text-primary mr-2"></i>Resume : <a name="resurl" id="resurl" href="{{ post.AppliedBy.jsprofile.Resume.url }} ">{{ post.AppliedBy.jsprofile.Resume.url }}</a></p>
+							
+						</div>	
+					</article>
+					
+				
+
+{% else %}
+
+					
+					
+					<article class="div1 bg-white rounded border-secondary border media content-section ml-2 shadow mb-3 mt-2 pt-2" >
+						<img class="rounded-circle mr-2 ml-2" src="{{ post.AppliedBy.jsprofile.img.url }}" width="50px" height="50px">
+						
+						<div class="mb-2">
+							<div class="border-bottom">
+								
+								<a class="text-dark" style="text-decoration: None;" href="{% url 'post-detail' post.AppliedFor.id %}">
+									<small class="text-muted">Applied By <strong>{{ post.AppliedBy.username }}</strong> on {{ post.DateApplied }} </small>
+							</div>
+							<p><i class="fa fa-briefcase text-primary mr-2"></i>Experience : {{ post.AppliedBy.jsprofile.Experience }}</p>
+						</a>
+							
+							
+							<p><i class="fa fa-file-alt text-primary mr-2"></i>Resume : <a name="resurl" id="resurl" href="{{ post.AppliedBy.jsprofile.Resume.url }} ">{{ post.AppliedBy.jsprofile.Resume.url }}</a></p>
+							
+						</div>	
+					</article>
+					
+				
+				
+{% endifchanged %}
+
+	
+		
+{% empty %}
+
+<h5 class='text-muted pt-2 ml-4'>
+ 	You have not Posted any jobs as of now.
+</h5>
+
+{% endfor %}
+</div>
+</div>
+{% if is_paginated %}
+<div class="ml-5 card-body ">
+	{% if page_obj.has_previous %}
+		<a class="btn btn-outline-primary mb-2" href="?page=1">First</a>
+		<a class="btn btn-outline-primary mb-2" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+	{% endif %}
+
+	{% for num in page_obj.paginator.page_range %}
+		{% if page_obj.number == num %}
+			<a class="btn btn-primary mb-2" href="?page={{ num }}">{{ num }}</a>
+		{% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+			<a class="btn btn-outline-primary mb-2" href="?page={{ num }}">{{ num }}</a>
+		{% endif %}
+
+	{% endfor %}
+
+	{% if page_obj.has_next %}
+		<a class="btn btn-outline-primary mb-2" href="?page={{ page_obj.next_page_number }}">Next</a>
+		<a class="btn btn-outline-primary mb-2" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+	{% endif %}	
+</div>
+{% endif %}
+
+
+
+
+
+</div>
+
+
+
+</div>
+{% endblock content %}

@@ -1,0 +1,94 @@
+{% extends 'Posts\Base.html' %}
+{% block content %}
+
+<form method="POST" enctype="multipart/form-data" >
+{% csrf_token %}
+	<div class="container mt-3 mb-5 col-md-5">
+		<div class="card">
+			<div class="card-header">
+				<h5 class="">Employer Registration Page</h5>
+			</div>
+			<div class="card-body">
+				<div class="input-group form-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text"><i class="fas fa-building"></i></span>
+					</div>
+					
+						<input type="text" class="form-control" name="cname" placeholder="Company Name" minlength="8" required>
+						
+				</div>
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-envelope-open"></i></span>
+						</div>
+						
+						<input type="email" class="form-control" name="oemail" placeholder="Official Email Id" required>	
+					</div>
+
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-industry mr-2"></i>Industry Type</span>
+						</div>
+						
+						<select class="form-control" name="indtytpe"  required>
+                 		<option disabled selected></option>
+		                 <option>IT-Software</option>
+		                 <option>IT-Hardware</option>
+		                 <option>Accountancy</option>
+		                 <option>Agriculture</option>
+		                 <option>College</option>
+		                
+		                </select>
+					</div>
+
+					<div class="input-group form-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text"><i class="fas fa-user-alt"></i></span>
+					</div>
+					
+						<input type="text" class="form-control" name="cperson" minlength="5" maxlength="20" placeholder="Contact Person Name" required>
+						
+				</div>
+
+
+					
+
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-key"></i></span>
+						</div>
+						
+						<input type="password" class="form-control" id="password" name="password" minlength="6" maxlength="20" placeholder="Create Password" required>
+
+					</div>
+
+			
+
+
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-address-card"></i></span>
+						</div>
+						
+						<textarea type="text" class="form-control" minlength="15" maxlength="70" placeholder="Company location" name="address" required /></textarea>
+					</div>
+
+					
+			</div>
+			<div class="card-footer">
+				<input type="submit" class="btn btn-primary" value="Submit" name="submit">
+				<small class="ml-3 mr-2"> Already have an account?</small><a href="{% url 'Login' %}">Login</a><br>
+				<div class="form-control mt-3">
+				<center><small class="mr-2"> Do you want to register as a Job Seeker?</small><a href="{% url 'Register' %}">Register</a></center>
+				</div>
+			</div>
+		
+			
+		</div>
+		
+		
+	</div>
+</form>
+{% endblock content %}
+
+

@@ -1,0 +1,116 @@
+{% extends 'Posts\Base.html' %}
+{% block content %}
+
+
+<form method="GET" role="form">
+	{% csrf_token %}
+<div class="row">
+	
+<div class="col-md-8">
+<div class="container mb-5 ml-2">
+	<div class="card">
+		
+			
+	<article class="rounded media border content-section ml-3 shadow mt-2 pt-2 mr-3">
+		<img class="rounded-circle mr-2 ml-2" src="{{ post.Creator.emprofile.img.url }}" width="50px" height="50px">
+		
+		<div class="mb-2">
+			<div class="border-bottom">
+				<a href="{% url 'user-posts' post.Creator.username %}" >{{ post.Creator.emprofile.CompanyName }}</a>
+				<small class="text-muted">Posted Job on {{ object.DatePosted }}</small>
+			</div>
+			<h6 class="pt-1 text-muted">{{ object.Designation }}</h6>
+			
+			<div class="row">
+
+				<div class="col-md-7">
+					<small>
+						<p><i class="fa fa-briefcase mr-2"></i>{{ object.Experience }}</p>
+						<p><i class="fa fa-map-marker-alt mr-2"></i>{{ object.Location }}</p>
+						<p><i class="fa fa-wallet mr-1"></i>{{ object.Package }}</p>
+					</small>
+				</div>
+				<div class="col-md-5">
+					<small>
+						<p><i class="fa fa-binoculars mr-2"></i>Vacancy : {{object.Vacancy}}</p>
+						<p><i class="fa fa-graduation-cap mr-2"></i>{{ object.Qualification }}</p>
+					</small>
+				</div>
+
+			</div>
+			<small><p><i class="fa fa-pencil-ruler mr-1"></i>{{ object.SkillsRequired }}</p></small>
+
+		</div>	
+
+	</article>
+
+		
+		<div class="card-body">
+			<h5 class="border-bottom">Job Description</h5>
+			<p class = "mb-4"style="font-size: 14px;">{{object.JobDescription}}</p>
+			
+
+<small >
+<p class="text-muted"><i class="fa fa-industry mr-2"></i>Industry Type &nbsp &nbsp &nbsp &nbsp &nbsp : &nbsp{{object.IndustryType}}</p>
+<p class="text-muted"><i class="fa fa-pencil-ruler mr-2"></i>Skills Required &nbsp &nbsp &nbsp &nbsp : &nbsp{{object.SkillsRequired}}</p>
+<p class="text-muted"><i class="fa fa-building mr-2"></i>Employement Type &nbsp: &nbsp{{ object.EmployementType }}</p>
+</small>
+
+		</div>
+			<div class="rounded border ml-2 mr-2 mb-2 card-body shadow">
+				<h5 class="border-bottom mb-3">About Company : </h5>
+				<small >
+					<p class="text-muted"><i class="fa fa-building mr-2"></i>Company Name &nbsp &nbsp &nbsp : &nbsp{{ object.Creator.emprofile.CompanyName }}</p>
+					<p class="text-muted"><i class="fas fa-envelope mr-2"></i>Official Email Id&nbsp &nbsp &nbsp &nbsp : &nbsp{{ object.Creator.email }}</p>
+					<p class="text-muted"><i class="fa fa-building mr-2"></i>Contact Person  &nbsp&nbsp &nbsp &nbsp  &nbsp: &nbsp{{ object.Creator.emprofile.ContactPerson }}</p>
+				</small>				
+			</div>
+		<div class="card-footer">
+		{% if user.emprofile %}
+			{% if object.Creator == user %}
+			<a class="btn btn-outline-danger mr-4" href="{% url 'post-delete' post.id %}"><img src="/media/delete.png" width="30" height="30">Delete Post</a>
+
+			{% endif %}
+		{% else %}
+			{% if user.is_authenticated %}
+
+			<button  class="btn btn-primary" type="submit" name='applyjob' value={{object.id}} >Apply Now</button>
+
+			{% else %}
+			<a class="btn btn-primary" href="{% url 'Login' %}">Login To Apply</a>
+			{% endif %}
+		{% endif %}
+		</div>
+	</div>
+	
+</div>
+</div>
+
+<div class="col-md-4">
+	<div class="container mb-4">
+	
+      <div class="content-section mr-3">
+        
+          <ul class="list-group mt-3">
+            <li class="list-group-item list-group-item-secondary"><i class="fa fa-calendar mr-2"></i><b>Important Dates</b></li>
+            <li class="list-group-item list-group-item-light ">ANNOUNCEMENT : Currently No Updates</li>
+            
+          </ul>
+        
+      </div>
+      <div class="content-section mr-3">
+        
+          <ul class="list-group mt-4">
+            <li class="list-group-item list-group-item-secondary"><i class="fa fa-bell mr-2"></i><b>Latest News</b></li>
+            <li class="list-group-item list-group-item-light">ANNOUNCEMENT : Currently No News</li>
+            <li class="list-group-item list-group-item-light">New Post will arive soon</li>
+            
+          </ul>
+        
+      </div>
+      </div>
+</div>
+
+</div>
+</form>
+{% endblock content %}

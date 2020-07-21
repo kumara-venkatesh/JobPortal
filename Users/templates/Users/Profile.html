@@ -1,0 +1,364 @@
+{% extends 'Posts\Base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+
+
+ <script>
+$(function() {
+    $('input[name="optradio"]').on('click', function() {
+
+    	des = document.getElementById("Designation")
+    	com = document.getElementById("compname")
+    	expf = document.getElementById("expfrom")
+    	expt = document.getElementById("expto")
+
+        if ($(this).val() === 'Fresher') { 
+                $("#xxx").hide();
+                des.required = false;
+	        	com.required = false;
+	        	expf.required = false;
+	        	expt.required = false;
+		 }
+        else if($(this).val() === 'Experienced'){
+        	des.required = true;
+        	com.required = true;
+        	expf.required = true;
+        	expt.required = true;
+        	$("#xxx").show();
+		}
+       
+    });
+});
+
+</script>
+
+
+
+
+<script type="text/javascript">
+	function check()
+	{
+		var fileInput = document.getElementById('myfile');
+		var filePath = fileInput.value;
+		var fileSize = fileInput.files[0].size;
+		var fileMB = fileSize/1048576;
+
+		var allowedExt = /(\.pdf|\.doc|\.docx|\.odt)$/i;
+		if (!allowedExt.exec(filePath))
+		{
+			alert('Please select only PDF/Docs file','Warning');
+			fileInput.value='';
+		}
+
+		if  (fileMB >= 2)
+		{
+			alert('please select a file less than 2MB')
+			fileInput.value='';
+		}
+		
+	}
+
+</script>
+
+<script type="text/javascript">
+	function checkImg()
+	{
+		var fileInput = document.getElementById('myprofile');
+		var filePath = fileInput.value;
+		var allowedExt = /(\.jpg|\.jpeg|\.png)$/i;
+		if (!allowedExt.exec(filePath))
+		{
+			alert('Please select only JPG/JPEG/PNG file','Warning');
+			fileInput.value='';
+		}
+		
+	}
+
+</script>
+
+<script type="text/javascript">
+	function validate()
+	{
+		var dtCurrent = new Date();
+	    var dob = document.getElementById("birthday");
+	    dobvalue = dob.value;
+	    var partdob = dobvalue.split("-")[0];
+        
+
+        
+	    if ((dtCurrent.getFullYear() - partdob) < 18)
+	    {
+	    	alert("Date of bith is not valid, Age should be not less than 18 years");
+	    	dob.value="";
+	    }
+
+	    else if ( (dtCurrent.getFullYear() - partdob ) > 50)
+	    {
+	    	alert("Your age is more than 50 years, you cannot register");
+	    	dob.value="";
+	    }
+    
+	}
+
+</script>
+
+<div class="row">
+	
+
+<div class="container content-section col-md-4">
+	<div class='media p-3'>
+		<img class="rounded-circle account-img" src="{{ user.jsprofile.img.url }}" width="100" height="100">
+		<div class="media-body pt-2">
+			<h4 class="account-heading pt-1">&nbsp {{ user.first_name }} {{ user.last_name }}</h4>
+			<small class="text-secondary col px-md-2.5">Email :&nbsp{{ user.email }}</small><br>
+			<a class="btn btn-outline-primary ml-2 pt-2 mt-2" href="{% url 'password_change' %}"><img src="/media/pwd.png" width="32" height="32"><b> Change Password</b></a>
+		</div>
+		
+	</div>
+<div class="banner-image-container">
+	<div class="banner-image mt-4">
+		<img src="/media/searchImg.png" width="500" >
+	</div>
+	
+</div>
+
+
+</div>
+
+
+
+<div class="container mb-5  col-md-7" >
+	
+		
+		<div class="card shadow mt-2">
+			<div class="card-header">
+				<h5 class="ml-4">User Profile Details<i class="fas fa-edit ml-2"></i></h5>
+
+			</div>
+			
+			
+				
+			<form method="POST" enctype="multipart/form-data">
+
+			
+
+					
+
+				<div class="card-body rounded border shadow mb-4 mt-3 ml-5 mr-5" id="abc" >
+					{% csrf_token %}
+					<div class="card-header border mb-2" >
+						<h5 style="text-align: center">General Details</h5>
+					</div>
+
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text">Email ID</span>
+						</div>
+						
+						<input type="email" value="{{ user.email }}" class="form-control" name="email" placeholder="Email Id" required>
+
+					</div>
+
+					
+
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text">Profile Picture</span>
+						</div>
+						
+							<input  type="file" onchange="checkImg()" class="btn btn-light" id="myprofile" accept=".png,.jpeg,.jpg" name="myprofile" >
+							<label class="ml-2">Currently : <a name="imgurl" id="imgurl" href="{{ user.jsprofile.img.url }} ">{{ user.jsprofile.img.url }}</a></label> 
+						
+
+					</div>
+					
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text">Contact No</span>
+						</div>
+						
+						<input type="tel" value="{{ user.jsprofile.phoneno }}" class="form-control" name="cnumber" minlength="10" maxlength="10" placeholder="Contact Number (10-digits)" pattern="[0-9]{10}" required>	
+					</div>
+			
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text">Upload Resume</span>
+						</div>
+						
+							<input type="file" onchange="check()" class="btn btn-light" id="myfile" accept=".doc,.docx,.pdf" name="myfile" >
+							<label class="ml-2">Currently : <a name="resurl" id="resurl" href="{{ user.jsprofile.Resume.url }} ">{{ user.jsprofile.Resume.url }}</a></label> 
+						
+					</div>
+
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"> Date of Birth</span>
+						</div>
+						
+						<input type="date" value="{{ user.jsprofile.BirthDate }}" class="form-control" onchange ="validate()" id="birthday" name="birthday">
+						<label class="input-group text-primary ml-2">Currently : {{ user.jsprofile.BirthDate }}</label> 	
+
+					</div>
+
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text">Address</span>
+						</div>
+						
+						<textarea type="text" class="form-control" minlength="10" maxlength="70" placeholder="Address" name="address" required>{{user.jsprofile.address }}</textarea>
+
+					</div>
+
+					
+
+					
+							
+					</div>
+
+
+
+					<div class="card-body rounded border shadow mb-3 mt-3 ml-5 mr-5" id="ppp" >
+					{% csrf_token %}
+
+					<div class="card-header border mb-2">
+						<h5 style="text-align: center">Education/Experience Details</h5>
+					</div>
+
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text">Highest Qualification</span>
+						</div>
+						
+						<select class="form-control" name="qual" required>
+                 		<option disabled selected>{{ user.jsprofile.Qualification }}</option>
+		                 <option>M.Tech</option>
+		                 <option>MCA</option>
+		                 <option>BCA</option>
+		                 <option>MCA</option>
+		                 <option>B.Sc.</option>
+		                
+		                </select>
+					</div>
+
+					<div class="form-group input-group ">
+				          <div class="input-group-prepend">
+				            <span class="input-group-text">Skills</span>
+				          </div>
+				          <input type="text" class="form-control form-group" value="{{ user.jsprofile.Skills }}" minlength="5" name="Skills" maxlength="50" placeholder="Skills seperated by comma" required>
+				          
+				          
+				    </div>
+
+
+                    <div class="input-group form-group">
+				    	<div class="input-group-prepend">
+				            <span class="input-group-text">Work Experience</span>
+				          </div>
+				     
+				        <div class="form-check-inline  border-left border-bottom border-top p-2">
+				          <label class="form-check-label">
+				            <input type="radio" class="form-check-input" name="optradio" value="Fresher">Fresher
+				          
+				        </div>
+
+				        <div class="form-check-inline  border-right border-bottom border-top p-2">
+				          <label class="form-check-label">
+				            <input type="radio" class="form-check-input" name="optradio" value="Experienced">Experienced
+				          </label>
+				        </div>
+				        
+				        
+				        {% if user.jsprofile.Experience == 'Fresher' %}
+				        	<label class="input-group text-primary ml-2">Currently : {{ user.jsprofile.Experience }} </label>
+
+				        {% else %}
+				        <label class="input-group text-primary ml-2">Currently : {{ user.jsprofile.Experience }} Experienced  in {{ user.jsprofile.CompanyName }} as a {{ user.jsprofile.Designation }} </label>
+
+
+				        {% endif %}
+
+				     </div>
+
+					
+					<div id="xxx" style="display: none" class="rounded border shadow col-md-10 p-2">
+
+							<div class="form-group input-group ">
+						          <div class="input-group-prepend">
+						            <span class="input-group-text">Job Title</span>
+						          </div>
+						          
+						          <input type="text" value="{{ user.jsprofile.Designation }}" class="form-control form-group" minlength="7" id="Designation" name="Designation" placeholder="Designation">
+						    </div>
+
+						    <div class="input-group form-group">
+						          <div class="input-group-prepend">
+						            <span class="input-group-text">Company Name</span>
+						          </div>
+						      
+						        <input type="text" value="{{ user.jsprofile.CompanyName }}" class="form-control form-group" minlength="7" name="compname" id="compname" placeholder="Previous Company Name">
+						      
+						    </div>
+
+							<div class="form-group input-group">
+						         <div class="input-group-prepend">
+						            <span class="input-group-text">Total Experience</span>
+						          </div>
+								 
+						            <select class="form-control" onclick="SetOption()" onchange="SetOption()" id="expfrom" name="expfrom">
+						                 <option>0 Years</option>
+						                 <option>1 Years</option>
+						                 <option>2 Years</option> 
+						                 <option>3 Years</option>
+						                 <option>4 Years</option>
+						                 <option>5 Years</option>
+						                 <option>6 Years</option>
+						                 <option>7 Years</option>
+						                 <option>8 Years</option> 
+						                 <option>9 Years</option>
+						                 <option>10 Years</option> 
+						                 <option>Mpore than 10 Years</option>
+						            </select>
+									 <div class="input-group-prepend">
+						            <span class="input-group-text" >To</span>
+						          </div>
+								        <select class="form-control" id="expto" name="expto">
+								        	<option selected disabled></option>
+							                 <option>1 Months</option>
+							                 <option>2 Months</option> 
+							                 <option>3 Months</option>
+							                 <option>4 Months</option>
+							                 <option>5 Months</option>
+							                 <option>6 Months</option>
+							                 <option>7 Months</option>
+							                 <option>8 Months</option> 
+							                 <option>9 Months</option>
+							                 <option>10 Months</option> 
+							                 <option>11 Months</option>
+								        </select>
+
+						        </div>
+														
+								
+					</div>
+	                            
+				</div>						
+                
+					
+
+				<div class="card-footer">
+					<button class="btn btn-primary" type="submit">Update Profile</button>
+				</div>
+				</form>
+
+				</div>
+			</div>
+			
+
+		</div>
+	
+
+</div>
+
+{% endblock content %}

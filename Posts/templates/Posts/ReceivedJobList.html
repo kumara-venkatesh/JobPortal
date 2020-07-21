@@ -1,0 +1,113 @@
+{% extends 'Posts\Base.html' %}
+{% block content %}
+
+<style type="text/css">
+	.div1{
+		opacity:0.9;
+	}
+	.div1:hover{
+		opacity: 1.0;
+		border:1px solid grey;
+	}
+</style>
+
+
+<div class="row mb-3">
+	
+
+<div class="col-md-9 mb-4">
+
+<div class="card-body ml-3 rounded shadow border mb-3 p-2">
+
+	<center><h5 class="text-muted ml-2 "><i class="fa fa-list mr-2"></i>{{ user.username }}'s-Posted job Applications</h5></center>
+	
+</div>
+
+
+<div class="row">
+
+	{% for post in posts %}
+		<div class="container col-md-9 ml-5 mt-2 mr-5 mb-3">
+
+			
+			<div class="card ">
+				<div class="card-header">
+					{{ post.Designation }}
+
+				</div>
+				<div class="card-body">
+					
+						<label>Location : {{ post.Location }}</label>
+						<label>Experience : {{ post.Experience }}</label>
+						<label>Applications : {{ post.jobapplication.AppliedBy }}</label>
+					
+					
+				</div>
+				<div class="card-footer" style="display: none;">
+					hgkhgvkhghk
+					hvjgf
+					
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+
+
+</div>
+{% if is_paginated %}
+<div class="ml-5 card-body ">
+	{% if page_obj.has_previous %}
+		<a class="btn btn-outline-primary mb-2" href="?page=1">First</a>
+		<a class="btn btn-outline-primary mb-2" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+	{% endif %}
+
+	{% for num in page_obj.paginator.page_range %}
+		{% if page_obj.number == num %}
+			<a class="btn btn-primary mb-2" href="?page={{ num }}">{{ num }}</a>
+		{% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+			<a class="btn btn-outline-primary mb-2" href="?page={{ num }}">{{ num }}</a>
+		{% endif %}
+
+	{% endfor %}
+
+	{% if page_obj.has_next %}
+		<a class="btn btn-outline-primary mb-2" href="?page={{ page_obj.next_page_number }}">Next</a>
+		<a class="btn btn-outline-primary mb-2" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+	{% endif %}	
+</div>
+{% endif %}
+
+
+
+
+
+</div>
+
+<div class="col-md-3">
+	<div class="container mb-4">
+	
+      <div class="content-section mr-3">
+        
+          <ul class="list-group mt-3">
+            <li class="list-group-item list-group-item-secondary"><i class="fa fa-calendar mr-2"></i><b>Important Dates</b></li>
+            <li class="list-group-item list-group-item-light ">ANNOUNCEMENT : Currently No Updates</li>
+            
+          </ul>
+        
+      </div>
+      <div class="content-section mr-3">
+        
+          <ul class="list-group mt-4">
+            <li class="list-group-item list-group-item-secondary"><i class="fa fa-bell mr-2"></i><b>Latest News</b></li>
+            <li class="list-group-item list-group-item-light">ANNOUNCEMENT : Currently No News</li>
+            <li class="list-group-item list-group-item-light">New Post will arive soon</li>
+            
+          </ul>
+        
+      </div>
+      </div>
+</div>
+
+
+</div>
+{% endblock content %}

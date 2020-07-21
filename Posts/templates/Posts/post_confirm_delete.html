@@ -1,0 +1,17 @@
+{% extends 'Posts/Base.html' %}
+{% block content %}
+
+<div class="card mb-5 mt-5 ml-5 w-50 shadow">
+	<form method="POST">
+		{% csrf_token %}
+	
+		<h5 class="card-body text-muted">Do you want to Delete the Post?</h5>
+		<div class='card-footer'>
+			<button class="btn btn-danger" type="submit">Yes, Delete</button>
+			<a class="btn btn-secondary ml-3" href="{% url 'post-detail' object.id %}">Cancel</a>
+		
+		</div>
+	</form>	
+</div>
+
+{% endblock %}

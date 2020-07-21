@@ -1,0 +1,134 @@
+{% extends 'Posts\Base.html' %}
+{% block content %}
+
+<script type="text/javascript">
+	function check()
+	{
+		var fileInput = document.getElementById('myfile');
+		var fileData = document.getElementById('imgurl');
+		var filePath = fileInput.value;
+		var allowedExt = /(\.jpg|\.jpeg|\.png)$/i;
+		if (!allowedExt.exec(filePath))
+		{
+			alert('Please Upload only JPEG/JPG/PNG file','Warning');
+			fileInput.value='';
+
+		}
+	
+		
+	}
+
+</script>
+
+<div class="row">
+	
+
+<div class="container content-section mb-3 col-md-4">
+	<div class='media p-2'>
+		<img class="rounded-circle account-img" src="{{ user.emprofile.img.url }}" width="100" height="100">
+		<div class="media-body pt-2">
+			<h4 class="account-heading pt-1">&nbsp {{ user.emprofile.CompanyName }}</h4>
+			<small class="text-secondary col px-md-2.5">Email :&nbsp{{ user.email }}</small><br>
+			<a class="btn btn-outline-primary ml-2 pt-2 mt-2" href="{% url 'password_change' %}"><img src="/media/pwd.png" width="32" height="32"><b> Change Password</b></a>
+		</div>
+		
+	</div>
+
+	<div class="banner-image-container">
+	<div class="banner-image mt-4">
+		<img src="/media/searchImg.png" width="500" >
+	</div>
+	
+</div>
+
+
+</div>
+
+<div class="container mb-5 col-md-6" >
+	
+		
+		<div class="card shadow m-2">
+			<div class="card-header">
+				<h5 class="">Update Profile Info<i class="fas fa-edit ml-2"></i></h5>
+			</div>
+			
+			
+				
+				<form method="POST"  enctype="multipart/form-data">
+					<div class="card-body">
+					{% csrf_token %}
+						
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-building mr-2"></i> Company Name</span>
+						</div>
+						
+						<input type="text" class="form-control" value="{{ user.emprofile.CompanyName }}" name="cname" minlength="8" required>
+					</div>
+
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-envelope-open mr-2"></i>Official Email</span>
+						</div>
+						
+						<input type="email" class="form-control" value="{{ user.email }}" name="oemail"  required>	
+					</div>
+
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-file-alt mr-2"></i>Company Logo</span>
+						</div>
+						
+							<input  type="file" onchange="check()" class="btn btn-light" id="myfile" accept=".png,.jpeg,.jpg" name="myfile" >
+							<label class="ml-2">Currently : <a name="imgurl" id="imgurl" href="{{ user.emprofile.img.url }} ">{{ user.emprofile.img.url }}</a></label> 
+						
+
+					</div>
+
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-industry mr-2"></i>Industry Type</span>
+						</div>
+						
+						<select class="form-control" name="indtype" required>
+                 		<option disabled selected>{{ user.emprofile.IndType }}</option>
+		                 <option>IT-Software</option>
+		                 <option>IT-Hardware</option>
+		                 <option>Accountancy</option>
+		                 <option>Agriculture</option>
+		                 <option>College</option>
+		                
+		                </select>
+					</div>
+
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-user-alt mr-2"></i>Contact Person</span>
+						</div>
+						
+						<input type="text" value="{{ user.emprofile.ContactPerson }}" class="form-control" name="cperson" minlength="5" maxlength="20" required>
+						
+					</div>
+
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-address-card mr-2"></i>Company location</span>
+						</div>
+						<input type="text" value="{{ user.emprofile.CompAddress }}" class="form-control" name="address" minlength="7" maxlength="70" required>
+							
+					</div>
+					</div>
+
+				<div class="card-footer">
+					<button class="btn btn-primary" type="submit">Update Profile</button>
+				</div>
+				</form>
+			</div>
+			
+
+		</div>
+	
+
+</div>
+
+{% endblock content %}

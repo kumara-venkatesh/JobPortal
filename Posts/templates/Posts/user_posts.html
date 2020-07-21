@@ -1,0 +1,112 @@
+{% extends 'Posts\Base.html' %}
+{% block content %}
+
+<style type="text/css">
+
+	.div1{
+		opacity: 0.9;
+	}
+	.div1:hover{
+		opacity: 1.0;
+		border:1px solid grey;
+		
+		
+	}
+</style>
+
+<div class="row">
+	
+
+<div class="col-md-9 mb-4">
+
+{% for post in posts %}
+	<div class="container">
+
+		<div class="container">
+			<article class="div1 rounded media content-section ml-2 shadow mb-3 mt-2 pt-2" style="height: 200px;">
+				<img class="mr-2 ml-2" src="{{ post.Creator.emprofile.img.url }}" width="50px" height="50px">
+				
+				<div class="mb-2">
+					<div class="border-bottom">
+						<a href="{% url 'user-posts' post.Creator.username %}" >{{ post.Creator.emprofile.CompanyName }}</a>
+						<a class="text-dark" style="text-decoration: None;" href="{% url 'post-detail' post.id %}">
+							<small class="text-muted">Posted Job on {{ post.DatePosted }}</small>
+					</div>
+					
+					<h6 class="pt-1 text-muted">{{ post.Designation }}</h6>
+					<p><i class="fa fa-briefcase mr-2"></i>{{ post.Experience }}</p>
+					<p><i class="fa fa-map-marker-alt mr-2"></i>{{ post.Location }}</p>
+					<p><i class="fa fa-pencil-ruler mr-1"></i>{{ post.SkillsRequired }}</p>
+					</a>
+				</div>	
+
+			</article>
+		</div>
+
+	</div>
+
+{% empty %}
+
+<h5 class='text-muted pt-2 ml-4'>
+ 	No Data Present with the given Input.
+</h5>
+
+{% endfor %}
+
+{% if is_paginated %}
+<div class="ml-5 mt-5 card-body">
+	{% if page_obj.has_previous %}
+		<a class="btn btn-outline-primary mb-4" href="?page=1">First</a>
+		<a class="btn btn-outline-primary mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+	{% endif %}
+
+	{% for num in page_obj.paginator.page_range %}
+		{% if page_obj.number == num %}
+			<a class="btn btn-primary mb-4" href="?page={{ num }}">{{ num }}</a>
+		{% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+			<a class="btn btn-outline-primary mb-4" href="?page={{ num }}">{{ num }}</a>
+		{% endif %}
+
+	{% endfor %}
+
+	{% if page_obj.has_next %}
+		<a class="btn btn-outline-primary mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+		<a class="btn btn-outline-primary mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+	{% endif %}	
+</div>
+{% endif %}
+
+
+
+</div>
+
+
+
+<div class="col-md-3">
+	<div class="container mb-4">
+	
+      <div class="content-section mr-3">
+        
+          <ul class="list-group mt-3">
+            <li class="list-group-item list-group-item-secondary"><i class="fa fa-calendar mr-2"></i><b>Important Dates</b></li>
+            <li class="list-group-item list-group-item-light ">ANNOUNCEMENT : Currently No Updates</li>
+            
+          </ul>
+        
+      </div>
+      <div class="content-section mr-3">
+        
+          <ul class="list-group mt-4">
+            <li class="list-group-item list-group-item-secondary"><i class="fa fa-bell mr-2"></i><b>Latest News</b></li>
+            <li class="list-group-item list-group-item-light">ANNOUNCEMENT : Currently No News</li>
+            <li class="list-group-item list-group-item-light">New Post will arive soon</li>
+            
+          </ul>
+        
+      </div>
+      </div>
+</div>
+
+
+</div>
+{% endblock content %}

@@ -1,0 +1,132 @@
+{% extends 'Posts\Base.html' %}
+{% block content %}
+
+<script type="text/javascript">
+	function check()
+	{
+		var fileInput = document.getElementById('myfile');
+		var filePath = fileInput.value;
+		var allowedExt = /(\.pdf|\.doc|\.docx|\.odt)$/i;
+		if (!allowedExt.exec(filePath))
+		{
+			alert('Please select only PDF/Docs file','Warning');
+			fileInput.value='';
+		}
+		
+	}
+
+</script>
+
+<script type="text/javascript">
+	function validate()
+	{
+		var dtCurrent = new Date();
+	    var dob = document.getElementById("birthday");
+	    dobvalue = dob.value;
+	    var partdob = dobvalue.split("-")[0];
+        
+
+        
+	    if ((dtCurrent.getFullYear() - partdob) < 18)
+	    {
+	    	alert("Date of bith is not valid, Age should be not less than 18 years");
+	    	dob.value="";
+	    }
+
+	    else if ( (dtCurrent.getFullYear() - partdob ) > 50)
+	    {
+	    	alert("Your age is more than 50 years, you cannot register");
+	    	dob.value="";
+	    }
+    
+	}
+
+</script>
+
+<form method="POST" enctype="multipart/form-data" >
+{% csrf_token %}
+	<div class="container mt-3 mb-5 col-md-5">
+		<div class="card">
+			<div class="card-header">
+				<h5 class="">User Registration Page</h5>
+			</div>
+			<div class="card-body">
+				<div class="input-group form-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text"><i class="fas fa-user-alt"></i></span>
+					</div>
+					
+						<input type="text" class="form-control" name="fname" minlength="5" maxlength="20" placeholder="First Name" required>
+						<input type="text" class="form-control" name="lname" minlength="1" maxlength="20" placeholder="Last Name" required>
+				</div>
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-envelope-open"></i></span>
+						</div>
+						
+						<input type="email" class="form-control" name="email" placeholder="Email Id" required>
+
+					</div>
+
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-phone"></i></span>
+						</div>
+						
+						<input type="tel" class="form-control" name="cnumber" minlength="10" maxlength="10" placeholder="Contact Number (10-digits)" pattern="[0-9]{10}" required>	
+					</div>
+
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-key"></i></span>
+						</div>
+						
+						<input type="password" class="form-control" id="password" name="password" minlength="6" maxlength="20" placeholder="Create Password" required>
+
+					</div>
+
+			
+
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-calendar-alt mr-2"></i> Date of Birth</span>
+						</div>
+						
+						<input type="date" class="form-control" onchange ="validate()" id="birthday" name="birthday" required>	
+
+					</div>
+
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-address-card"></i></span>
+						</div>
+						
+						<textarea type="text" class="form-control" minlength="10" maxlength="70" placeholder="Address" name="address" required /></textarea>
+					</div>
+
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-file-alt mr-2"></i> Upload Resume</span>
+						</div>
+						
+							<input type="file" onchange="check()" class="btn btn-light" id="myfile" accept=".doc,.docx,.pdf" name="myfile" required>
+						
+
+					</div>
+
+			</div>
+			<div class="card-footer">
+				<input type="submit" class="btn btn-primary"  value="Submit" name="submit">
+				<small class="ml-3 mr-2"> Already have an account?</small><a href="{% url 'Login' %}">Login</a><br>
+				<div class="form-control mt-3">
+				<center><small class="mr-2"> Do you want to register as a Employer?</small><a href="{% url 'EmpRegister' %}">Register</a></center>
+				</div>
+			</div>
+		
+			
+		</div>
+		
+		
+	</div>
+</form>
+{% endblock content %}
